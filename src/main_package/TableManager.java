@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class TableManager extends JPanel{
 	 
 	ArrayList<OrcidData> datalist = null;
 	String[] header = null;
-	Vector<Object> row = null;
+	ArrayList<OrcidData> filteredlist;
 	
 	public TableManager(ArrayList<OrcidData> datalist, String[] header) {
 		super();
@@ -35,14 +36,16 @@ public class TableManager extends JPanel{
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(700, 500));
         
+        //filtro la tabella con valori predefiniti per ora
+        UserInputQuery userinput = new UserInputQuery();
+        //LA SINTASSI DEL NOME DEVE ESSERE "nome, cognome" TASSATIVAMENTE altrimenti non funziona
+        QueryMaker query = new QueryMaker();
+        datalist = query.ArrayFilter(datalist, "Staff", "Francesco, Guerra");
+        
         //creo definitivamente la tabella e la riempio di dati
-        DefaultTableModel model = new DefaultTableModel(header,0);
-        
-        //loop di datalist per aggiungere i dati alla tabella, ciclo ogni riga e aggiungo ogni elemento alla colonna
-        
-        
+        TableModel model = new DesignedTableModel(datalist, header);
         JTable table = new JTable(model);
-
+        
         // Fix del resize della tabella
         setBorder(new EmptyBorder(5, 5, 5, 5));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

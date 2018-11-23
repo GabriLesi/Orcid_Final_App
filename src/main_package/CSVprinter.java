@@ -43,7 +43,7 @@ public class CSVprinter {
 				datalist.add(singledata);
 				
 				//STAMPA DI PROVA, messa sotto commento perchè ho verificato che i dati sono registrati correttamente
-				System.out.println(singledata); 
+				//System.out.println(singledata); 
 			}
 			
 			//ora che ho i dati creo la tabella e ne imposto i valori
