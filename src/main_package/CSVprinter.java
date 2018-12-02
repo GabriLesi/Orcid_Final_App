@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -19,10 +21,6 @@ import com.opencsv.bean.CsvToBeanBuilder;
 public class CSVprinter {
 
 	private static final String CSV_PATH = "C:\\Users\\Gabriele Lesignoli\\Desktop\\TESI\\organizations_ORCID.csv";
-	private static final String[] CSV_HEADER = {"id","acronyms","alias","label","creationYear","commercialLabel","address","city","citycode",
-			"country","countryCode","postcode","urbanUnit","urbanUnitCode","lat","lon","revenueRange","privateFinanceDate","employees",
-			"typeCategoryCode","typeLabel","typeKind","isPublic","leaders","staff","links","privateOrgTypeId","privateOrgTypeLabel",
-			"activities","relations","badges","children","identifiers"};
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -46,14 +44,14 @@ public class CSVprinter {
 				//System.out.println(singledata); 
 			}
 			
-			//ora che ho i dati creo la tabella e ne imposto i valori
-			TableManager tablegen = new TableManager(datalist,CSV_HEADER);
-			
 			//Ora che ho l'elenco completo provo a stampare una tabella dai dati
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 	            @Override
 	            public void run() {
-	                tablegen.showFrame();
+	            	//ora che ho i dati creo la tabella e ne imposto i valori
+	    			UIinitiator UI = new UIinitiator(datalist);
+	    			UI.createAndShowGUI();
+	    			UI.start();
 	            }
 	        });
 		}

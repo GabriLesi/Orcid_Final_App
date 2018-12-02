@@ -12,16 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class TableManager extends JPanel{
+public class TableManager extends JPanel {
 	 
 	ArrayList<OrcidData> datalist = null;
-	String[] header = null;
-	ArrayList<OrcidData> filteredlist;
+	private static final String[] header = {"id","acronyms","alias","label","creationYear","commercialLabel","address","city","citycode",
+			"country","countryCode","postcode","urbanUnit","urbanUnitCode","lat","lon","revenueRange","privateFinanceDate","employees",
+			"typeCategoryCode","typeLabel","typeKind","isPublic","leaders","staff","links","privateOrgTypeId","privateOrgTypeLabel",
+			"activities","relations","badges","children","identifiers"};
+	private JPanel tablepanel = new JPanel();
 	
-	public TableManager(ArrayList<OrcidData> datalist, String[] header) {
+	public TableManager(ArrayList<OrcidData> datalist) {
 		super();
 		this.datalist = datalist;
-		this.header = header;
 	}
 	
 	public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth) {
@@ -32,15 +34,9 @@ public class TableManager extends JPanel{
 	    }
 	}
 
-	private void initializeUI() {
+	public JPanel initializeTable() {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(700, 500));
-        
-        //filtro la tabella con valori predefiniti per ora
-        UserInputQuery userinput = new UserInputQuery();
-        //LA SINTASSI DEL NOME DEVE ESSERE "nome, cognome" TASSATIVAMENTE altrimenti non funziona
-        QueryMaker query = new QueryMaker();
-        datalist = query.ArrayFilter(datalist, "Staff", "Francesco, Guerra");
         
         //creo definitivamente la tabella e la riempio di dati
         TableModel model = new DesignedTableModel(datalist, header);
@@ -56,20 +52,9 @@ public class TableManager extends JPanel{
         table.setAutoCreateRowSorter(true);
         
         JScrollPane pane = new JScrollPane(table);
-        add(pane, BorderLayout.CENTER);
-    }
-	
-	public void showFrame() {
-        JPanel panel = this;
-        initializeUI();
-        panel.setOpaque(true);
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setTitle("Una bellissima tabella coi dati dei csv");
-        frame.setContentPane(panel);
-        frame.pack();
-        frame.setVisible(true);
+        tablepanel.add(pane, BorderLayout.CENTER);
+        
+        return tablepanel;
     }
 
 	public List<OrcidData> getDatalist() {
@@ -80,12 +65,7 @@ public class TableManager extends JPanel{
 		this.datalist = datalist2;
 		
 		//stampa di controllo
-		System.out.println(datalist.size());
+		//System.out.println(datalist.size());
 	}
-
-	public void setHeader(String[] csvHeader) {
-		this.header = csvHeader;
-		//stampa di controllo
-		System.out.println(header.length);;
-	}
+	
 }

@@ -71,7 +71,7 @@ public class QueryMaker {
 		// per ora creo una seconda lista che contiene solo i valori filtrati nella colonna
 		for (int i = 0; i < datalist.size(); i++) {
 			OrcidData data = datalist.get(i);
-			//uso ID a colpo sicuro perchè è l'unico valore int
+			//uso Lat e Lon a colpo sicuro perchè sono gli unici valori double
 			double returned;
 			switch(column) {
 				case "Lat" : returned = data.getLat();
