@@ -47,7 +47,7 @@ public class UserInputQuery {
 		//creo la casella di testo
 		//LA SINTASSI DEL NOME DEVE ESSERE "nome, cognome" TASSATIVAMENTE altrimenti non funziona
 		JLabel textLbl = new JLabel("Testo da filtrare");
-		filterfield = new JTextField("la sintassi per Staff è nome, cognome");
+		filterfield = new JTextField(15);
 		constraints.gridy = 1;
 		constraints.gridx = 0;
 		newPanel.add(textLbl, constraints);
@@ -68,9 +68,11 @@ public class UserInputQuery {
 				setValuefilter(filterfield.getText());
 				setColumnfilter((String) columns.getSelectedItem());
 				
-				//filtro i dati passati prima di creare la nuova tabella
+				/*filtro i dati passati prima di creare la nuova tabella
 				QueryMaker query = new QueryMaker();
 				datalist = query.ArrayFilter(datalist, columnfilter, valuefilter);
+				*/
+				
 				/* stampa di controllo 
 				System.out.println(getColumnfilter());
 				System.out.println(getValuefilter());

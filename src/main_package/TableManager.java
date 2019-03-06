@@ -56,6 +56,24 @@ public class TableManager extends JPanel {
         
         return tablepanel;
     }
+	
+	public JTable InitializeTableValues() {
+        
+        //creo definitivamente la tabella e la riempio di dati
+        TableModel model = new DesignedTableModel(datalist, header);
+        JTable table = new JTable(model);
+        
+        // Fix del resize della tabella
+        setBorder(new EmptyBorder(5, 5, 5, 5));
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      //metto le dimensioni fisse di righe e colonne per una maggiore leggibilità
+        table.setRowHeight(25);
+        setJTableColumnsWidth(table, 100);
+       //ordina i valori delle righe in base alle colonne
+        table.setAutoCreateRowSorter(true);
+        
+        return table;
+    }
 
 	public List<OrcidData> getDatalist() {
 		return datalist;
