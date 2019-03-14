@@ -20,7 +20,7 @@ public class OrcidData {
 	private String label;
 	
 	@CsvBindByName
-	private Date creationYear;
+	private String creationYear;
 	
 	@CsvBindByName
 	private String commercialLabel;
@@ -110,7 +110,7 @@ public class OrcidData {
 		
 	}
 
-	public OrcidData(int id, String acronyms, String alias, String label, Date creationYear, String commercialLabel,
+	public OrcidData(int id, String acronyms, String alias, String label, String creationYear, String commercialLabel,
 			String address, String city, String citycode, String country, String countryCode, String postcode,
 			String urbanUnit, String urbanUnitCode, double lat, double lon, String revenueRange,
 			String privateFinanceDate, String employees, String typeCategoryCode, String typeLabel, String typeKind,
@@ -185,11 +185,11 @@ public class OrcidData {
 		this.label = label;
 	}
 
-	public Date getCreationYear() {
+	public String getCreationYear() {
 		return creationYear;
 	}
 
-	public void setCreationYear(Date creationYear) {
+	public void setCreationYear(String creationYear) {
 		this.creationYear = creationYear;
 	}
 

@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class UIinitiator {
 	
 	private JFrame frameUI;
 	private ArrayList<OrcidData> datalist;
+	private ArrayList<OrcidData> filteredlist;
 	
 	public UIinitiator(ArrayList<OrcidData> datalist) {
 		super();
@@ -30,7 +32,9 @@ public class UIinitiator {
 			e.getWindow().dispose();
 		}
 	};
-	private JTextField valuefilter;
+	private JTextField valueTextField;
+	private String valueString;
+	private String columnString;
 	private JTable table;
 	
 	
@@ -71,14 +75,14 @@ public class UIinitiator {
 		frameUI.getContentPane().add(lblColonnaDaFiltrare, gbc_lblColonnaDaFiltrare);
 		
 		//textfield per il valore da filtrare
-		valuefilter = new JTextField();
+		valueTextField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 0;
-		frameUI.getContentPane().add(valuefilter, gbc_textField);
-		valuefilter.setColumns(10);
+		frameUI.getContentPane().add(valueTextField, gbc_textField);
+		valueTextField.setColumns(10);
         
 		//combobox con i dati che indicano la colonna
 		String[] columnOptions = {"id","acronyms","alias","label","creationYear","commercialLabel","address","city","citycode",
@@ -108,21 +112,43 @@ public class UIinitiator {
         scrollPane.setViewportView(table);
         
         //premo il bottone per aggiornare la tabella, nel caso di errori o messaggio e non faccio nulla o metto una tabella nulla
-        JButton btnNewButton = new JButton("FILTRA !");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridheight = 2;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 0;
-		frameUI.getContentPane().add(btnNewButton, gbc_btnNewButton);
+        JButton filterButton = new JButton("FILTRA !");
+		GridBagConstraints gbc_filterButton = new GridBagConstraints();
+		gbc_filterButton.gridheight = 2;
+		gbc_filterButton.insets = new Insets(0, 0, 5, 0);
+		gbc_filterButton.gridx = 2;
+		gbc_filterButton.gridy = 0;
+		frameUI.getContentPane().add(filterButton, gbc_filterButton);
         
-        /*DA SISTEMARE
-        CODICE VECCHIO ora la tabella è nel frame senza dialog
-        
-        UserInputQuery userAnswer = new UserInputQuery(datalist);
-        tablePanel = userAnswer.Panelgenerator();
-		frameUI.setVisible(true);
-		*/
+        //Premo il bottone : salvo i valori, chiamo il filtro, cambio la datalist e refresho la tabella
+		filterButton.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				//Salvo i valori da filtrare
+				// TODO Auto-generated method stub
+				setValueString(valueTextField.getText());
+				setColumnString((String)comboBox.getSelectedItem());
+				
+				System.out.println(valueString);
+				System.out.println(columnString);
+				
+				if (valueString.isEmpty()){
+					filteredlist = datalist;
+				} 
+				else {
+					//Creo la datalist filtrata - CASTO IN BASE AL VALORE DELLA COLONNA
+					QueryMaker filterquery = new QueryMaker(columnString, valueString, datalist);
+					filteredlist = filterquery.QueryChooser();
+				}
+				//Creo una nuova tabella usando la datalist filtrata (uso un'altra variabile per non perdere quella completa)
+				tablemanager.setDatalist(filteredlist);
+				table = tablemanager.InitializeTableValues();
+				scrollPane.setViewportView(table);
+			}
+			
+		});
 	}
 
 	public ArrayList<OrcidData> getDatalist() {
@@ -131,5 +157,37 @@ public class UIinitiator {
 
 	public void setDatalist(ArrayList<OrcidData> datalist) {
 		this.datalist = datalist;
+	}
+
+	public ArrayList<OrcidData> getFilteredlist() {
+		return filteredlist;
+	}
+
+	public void setFilteredlist(ArrayList<OrcidData> filteredlist) {
+		this.filteredlist = filteredlist;
+	}
+
+	public String getValueString() {
+		return valueString;
+	}
+
+	public void setValueString(String valueString) {
+		this.valueString = valueString;
+	}
+
+	public String getColumnString() {
+		return columnString;
+	}
+
+	public void setColumnString(String columnString) {
+		this.columnString = columnString;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
 	}
 }
