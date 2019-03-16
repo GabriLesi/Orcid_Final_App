@@ -133,6 +133,7 @@ public class UIinitiator {
 				
 				System.out.println(valueString);
 				System.out.println(columnString);
+				System.out.println("--------------------------");
 				
 				if (valueString.isEmpty()){
 					filteredlist = datalist;

@@ -69,12 +69,16 @@ public class QueryMaker {
 	
 	public ArrayList<OrcidData> ArrayFilter(ArrayList<OrcidData> datalist, String column, int value) {
 		// per ora creo una seconda lista che contiene solo i valori filtrati nella colonna
-		for (int i = 0; i < datalist.size(); i++) {
-			OrcidData data = datalist.get(i);
-			//uso ID a colpo sicuro perchè è l'unico valore int
-			int returned = data.getId();
-			if (returned == value) {
-					filteredlist.add(data);
+		//controllo che il valore inserito da utente non sia al di fuori della lista per evitare errori
+		if (value <= datalist.size()) {
+			//se non è cosi controllo normalmente le corrispondenze
+			for (int i = 0; i < datalist.size(); i++) {
+				OrcidData data = datalist.get(i);
+				//uso ID a colpo sicuro perchè è l'unico valore int
+				int returned = data.getId();
+				if (returned == value) {
+						filteredlist.add(data);
+				}
 			}
 		}
 		
