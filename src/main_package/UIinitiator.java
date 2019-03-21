@@ -35,6 +35,7 @@ public class UIinitiator {
 	private JTextField valueTextField;
 	private String valueString;
 	private String columnString;
+	private String columnToExamineString;
 	private JTable table;
 	
 	
@@ -51,9 +52,9 @@ public class UIinitiator {
         frameUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frameUI.getContentPane().setLayout(gridBagLayout);
        
         //prime etichette per la GUI e textfield dove inserirò il valore da filtrare
@@ -96,6 +97,27 @@ public class UIinitiator {
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
 		frameUI.getContentPane().add(comboBox, gbc_comboBox);
+		
+		JLabel lblColonnaDaEsaminare = new JLabel("Colonna da esaminare dopo il filtro");
+		GridBagConstraints gbc_lblColonnaDaEsaminare = new GridBagConstraints();
+		gbc_lblColonnaDaEsaminare.anchor = GridBagConstraints.EAST;
+		gbc_lblColonnaDaEsaminare.insets = new Insets(0, 0, 5, 5);
+		gbc_lblColonnaDaEsaminare.gridx = 0;
+		gbc_lblColonnaDaEsaminare.gridy = 2;
+		frameUI.getContentPane().add(lblColonnaDaEsaminare, gbc_lblColonnaDaEsaminare);
+		
+		//combobox con i dati che indicano la colonna
+				String[] columnOptionsToExamine = {"id","acronyms","alias","label","creationYear","commercialLabel","address","city","citycode",
+						"country","countryCode","postcode","urbanUnit","urbanUnitCode","lat","lon","revenueRange","privateFinanceDate","employees",
+						"typeCategoryCode","typeLabel","typeKind","isPublic","leaders","staff","links","privateOrgTypeId","privateOrgTypeLabel",
+						"activities","relations","badges","children","identifiers"};
+		JComboBox comboBox_colonnaEsamina = new JComboBox(columnOptionsToExamine);
+		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
+		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_1.gridx = 1;
+		gbc_comboBox_1.gridy = 2;
+		frameUI.getContentPane().add(comboBox_colonnaEsamina, gbc_comboBox_1);
         
 		//creo lo scrollPane dove metterò la tabella per poterla leggere
 		JScrollPane scrollPane = new JScrollPane();
@@ -103,7 +125,7 @@ public class UIinitiator {
 		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 2;
+		gbc_scrollPane.gridy = 3;
 		frameUI.getContentPane().add(scrollPane, gbc_scrollPane);
 		
 		//creo la table dal file, la aggiornerò premendo il bottone
@@ -114,7 +136,7 @@ public class UIinitiator {
         //premo il bottone per aggiornare la tabella, nel caso di errori o messaggio e non faccio nulla o metto una tabella nulla
         JButton filterButton = new JButton("FILTRA !");
 		GridBagConstraints gbc_filterButton = new GridBagConstraints();
-		gbc_filterButton.gridheight = 2;
+		gbc_filterButton.gridheight = 3;
 		gbc_filterButton.insets = new Insets(0, 0, 5, 0);
 		gbc_filterButton.gridx = 2;
 		gbc_filterButton.gridy = 0;
@@ -130,18 +152,25 @@ public class UIinitiator {
 				// TODO Auto-generated method stub
 				setValueString(valueTextField.getText());
 				setColumnString((String)comboBox.getSelectedItem());
+				setColumnToExamineString((String)comboBox_colonnaEsamina.getSelectedItem());
 				
+				/*
 				System.out.println(valueString);
 				System.out.println(columnString);
+				System.out.println(columnToExamineString);
 				System.out.println("--------------------------");
+				*/
 				
+				//check che la lista non sia vuota, in quel caso ripristino datalist
 				if (valueString.isEmpty()){
 					filteredlist = datalist;
+					System.out.println("Controllo colonne evitato perchè la lista non è stata filtrata");
 				} 
 				else {
 					//Creo la datalist filtrata - CASTO IN BASE AL VALORE DELLA COLONNA
-					QueryMaker filterquery = new QueryMaker(columnString, valueString, datalist);
+					QueryMaker filterquery = new QueryMaker(columnString, valueString, datalist, columnToExamineString);
 					filteredlist = filterquery.QueryChooser();
+					
 				}
 				//Creo una nuova tabella usando la datalist filtrata (uso un'altra variabile per non perdere quella completa)
 				tablemanager.setDatalist(filteredlist);
@@ -190,5 +219,13 @@ public class UIinitiator {
 
 	public void setTable(JTable table) {
 		this.table = table;
+	}
+
+	public String getColumnToExamineString() {
+		return columnToExamineString;
+	}
+
+	public void setColumnToExamineString(String columnToExamineString) {
+		this.columnToExamineString = columnToExamineString;
 	}
 }

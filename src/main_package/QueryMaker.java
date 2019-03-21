@@ -1,21 +1,23 @@
 package main_package;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class QueryMaker {
 	
 	private String column;
+	private String columnToExamine;
 	private String value;
 	private double latlon;
 	private int id;
 	private ArrayList <OrcidData> datalist;
 	private ArrayList <OrcidData> filteredlist = new ArrayList <OrcidData>();
+	private ExaminedData examinedList  = new ExaminedData();
 	
-	public QueryMaker(String column, String value, ArrayList<OrcidData> datalist) {
+	public QueryMaker(String column, String value, ArrayList<OrcidData> datalist, String columnToExamine) {
 		super();
 		this.column = column;
+		this.columnToExamine = columnToExamine;
 		this.value = value;
 		this.datalist = datalist;
 	}
@@ -61,8 +63,14 @@ public class QueryMaker {
 			
 			if (returned.contains(value)) {
 					filteredlist.add(data);
+					
+					//se ho aggiunto il valore ho rispettato il filtro QUINDI vado ad esaminare la colonna
+					String valueToExamine = ColumnStringChooser(columnToExamine, data);
+					examinedList.ColumnExaminer(valueToExamine);
 			}
 		}
+		
+		examinedList.Printer();
 		
 		return filteredlist;
 	}
@@ -106,6 +114,7 @@ public class QueryMaker {
 		return filteredlist;
 	}
 	
+	//selettore di colonne per le JComboBox e i filtri associati
 	public String ColumnStringChooser(String column, OrcidData data) {
 		switch(column) {
 			case "acronyms" : return data.getAcronyms();
