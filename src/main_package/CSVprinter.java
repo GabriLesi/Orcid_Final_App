@@ -31,6 +31,17 @@ public class CSVprinter {
 				OrcidData singledata = dataIterator.next();
 				datalist.add(singledata);
 				
+				/*stampa di prova per verificare i nomi dello staff
+				if(singledata.getId() == 26550) {
+					System.out.println("--------------------");
+					String [] test = singledata.getStaff();
+					for (int i = 0; i<test.length; i++) {
+						System.out.println(test[i]);
+					}
+					System.out.println("--------------------");
+				}
+				*/
+				
 				//STAMPA DI PROVA, messa sotto commento perchè ho verificato che i dati sono registrati correttamente
 				//System.out.println(singledata); 
 			}

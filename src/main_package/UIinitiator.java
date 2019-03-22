@@ -76,6 +76,7 @@ public class UIinitiator {
 		frameUI.getContentPane().add(lblColonnaDaFiltrare, gbc_lblColonnaDaFiltrare);
 		
 		//textfield per il valore da filtrare
+		//SE FILTRO IL NOME LA SINTASSI RISULTA "Francesco, Guerra" SENZA APICI
 		valueTextField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);

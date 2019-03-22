@@ -27,10 +27,13 @@ public class ExaminedData {
 				//se trovo il valore allora risalgo all'indice e lo aggiorno di conseguenza
 				int correctindex = valueList.indexOf(valoreEsame);
 				counterList.set(correctindex, counterList.get(correctindex) + 1);
+				//stampa di controllo
+				//System.out.println("Sommo l'elemento "+ valueList.get(correctindex) +" e appare " + counterList.get(correctindex) + "volte");
 			}
 			else {
 				valueList.add(valoreEsame);
 				counterList.add(1);
+				System.out.println("Aggiungo l'elemento "+ valueList.get(i) +" e appare " + counterList.get(i) + "volte");
 			}
 		}
 		
@@ -39,7 +42,7 @@ public class ExaminedData {
 	public void Printer() {
 		System.out.println("---------------VALORI ESAMINATI DELLA COLONNA FILTRATA---------------");
 		for (int i = 0; i<valueList.size(); i++) {
-			System.out.println(counterList.get(i) + " iterazioni per " + valueList.get(i));
+			System.out.println(counterList.get(i) + " istanze per " + valueList.get(i));
 		}
 		System.out.println("---------------------------------------------------------------------");
 	}
