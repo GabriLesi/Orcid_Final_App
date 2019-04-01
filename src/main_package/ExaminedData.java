@@ -21,22 +21,23 @@ public class ExaminedData {
 	
 	public void ColumnExaminer(String valoreEsame) {
 		//cerco nell'array se ho già il dato : se si, incremento il contatore di 1, altrimenti lo aggiungo e setto un nuovo contatore ad 1
-		for (int i = 0; i<= valueList.size(); i++) {
-			//se contengo il valore aumento il contatore con il corrispettivo indice, altrimenti aggiungo il valore e lo creo 
-			if (valueList.contains(valoreEsame)) {
-				//se trovo il valore allora risalgo all'indice e lo aggiorno di conseguenza
-				int correctindex = valueList.indexOf(valoreEsame);
-				counterList.set(correctindex, counterList.get(correctindex) + 1);
-				//stampa di controllo
-				//System.out.println("Sommo l'elemento "+ valueList.get(correctindex) +" e appare " + counterList.get(correctindex) + "volte");
-			}
-			else {
-				valueList.add(valoreEsame);
-				counterList.add(1);
-				System.out.println("Aggiungo l'elemento "+ valueList.get(i) +" e appare " + counterList.get(i) + "volte");
-			}
+		//se contengo il valore aumento il contatore con il corrispettivo indice, altrimenti aggiungo il valore e lo creo 
+		if (valueList.contains(valoreEsame)) {
+			//se trovo il valore allora risalgo all'indice e lo aggiorno di conseguenza
+			int correctindex = valueList.indexOf(valoreEsame);
+			counterList.set(correctindex, counterList.get(correctindex) + 1);
+			//stampa di controllo
+			System.out.println("Sommo l'elemento "+ valueList.get(correctindex) +" e appare " + counterList.get(correctindex) + "volte");
 		}
-		
+		else {
+			//valori di controllo per la stampa
+			valueList.add(valoreEsame);
+			counterList.add(1);
+			//puntatori indicati correttamente per la conferma stampa
+			//vengono aggiunti correttamente i valori
+			int indiceprova = valueList.indexOf(valoreEsame);
+			System.out.println("Aggiungo l'elemento "+ valueList.get(indiceprova) +" e appare " + counterList.get(indiceprova) + "volte");
+		}	
 	}
 	
 	public void Printer() {
