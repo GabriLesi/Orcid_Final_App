@@ -26,6 +26,7 @@ public class TableManager extends JPanel {
 		this.datalist = datalist;
 	}
 	
+	//impostazioni layout colonna, per non renderle troppo piccole ed esplorabili tramite mouse
 	public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth) {
 	    for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
 	        TableColumn column = table.getColumnModel().getColumn(i);
@@ -33,33 +34,11 @@ public class TableManager extends JPanel {
 	        column.setPreferredWidth(tablePreferredWidth);
 	    }
 	}
-
-	public JPanel initializeTable() {
-        setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(700, 500));
-        
-        //creo definitivamente la tabella e la riempio di dati
-        TableModel model = new DesignedTableModel(datalist, header);
-        JTable table = new JTable(model);
-        
-        // Fix del resize della tabella
-        setBorder(new EmptyBorder(5, 5, 5, 5));
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-      //metto le dimensioni fisse di righe e colonne per una maggiore leggibilità
-        table.setRowHeight(25);
-        setJTableColumnsWidth(table, 100);
-       //ordina i valori delle righe in base alle colonne
-        table.setAutoCreateRowSorter(true);
-        
-        JScrollPane pane = new JScrollPane(table);
-        tablepanel.add(pane, BorderLayout.CENTER);
-        
-        return tablepanel;
-    }
 	
+	//inizializzo il layout e genero la tabella
 	public JTable InitializeTableValues() {
         
-        //creo definitivamente la tabella e la riempio di dati
+        //creo definitivamente la tabella e la riempio di dati (header = nomi delle colonne)
         TableModel model = new DesignedTableModel(datalist, header);
         JTable table = new JTable(model);
         

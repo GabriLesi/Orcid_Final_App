@@ -5,13 +5,18 @@ import java.util.Arrays;
 
 public class QueryMaker {
 	
+	//classe con diversi metodi per il filtraggio di una arraylist di orciddata (ne riceve una da filtrare e ne ritorna una filtrata)
 	private String column;
 	private String columnToExamine;
 	private String value;
+	//valore per latitudine e longitudine
 	private double latlon;
 	private int id;
+	//lista dati iniziale, da filtrare
 	private ArrayList <OrcidData> datalist;
+	//lista dati in uscita, fitrata
 	private ArrayList <OrcidData> filteredlist = new ArrayList <OrcidData>();
+	//lista valori esaminati, mostrati su console a fine filtro
 	private ExaminedData examinedList  = new ExaminedData();
 	
 	public QueryMaker(String column, String value, ArrayList<OrcidData> datalist, String columnToExamine) {
@@ -24,24 +29,28 @@ public class QueryMaker {
 	
 	//DEVO CAPIRE CHE TIPO DI DATO PASSO DA UNA STRINGA se int double o date e verificare il comportamento di conseguenza
 	public ArrayList<OrcidData> QueryChooser() {
+		//controllo il nome della colonna da filtrare
 		switch(column) {
 			case "id" : {
+				//se è ID converto il valore di value in Int e avvio il filtro
 				id = Integer.valueOf(value);
 				setFilteredlist(ArrayFilter(datalist, column, id));
 				break;
 			}
 			case "lat" : {
+				//se è LAT o LON converto in Double e filtro
 				latlon = Double.valueOf(value);
 				setFilteredlist(ArrayFilter(datalist, column,latlon));
 				break;
 			}
 			case "lon" :{
+				//se è LAT o LON converto in Double e filtro
 				latlon = Double.valueOf(value);
 				setFilteredlist(ArrayFilter(datalist, column,latlon));
 				break;
 			}
 			default : {
-				//caso string
+				//se è un valore String allora controllo normalmente
 				setFilteredlist(ArrayFilter(datalist, column,value));
 				break;
 			}
@@ -50,10 +59,12 @@ public class QueryMaker {
 		return filteredlist;
 	}
 	
+	//caso STRING
 	public ArrayList<OrcidData> ArrayFilter(ArrayList<OrcidData> datalist, String column, String value) {
 		
 		// per ora creo una seconda lista che contiene solo i valori filtrati nella colonna
 		for (int i = 0; i < datalist.size(); i++) {
+			//controllo 1 valore
 			OrcidData data = datalist.get(i);
 			String returned = ColumnStringChooser(column,data);
 			
@@ -61,15 +72,17 @@ public class QueryMaker {
 			 * System.out.println(returned);
 			*/
 			
+			//se il valore letto contiene il valore da filtrare lo aggiungo, altrimenti lo scarto
 			if (returned.contains(value)) {
 					filteredlist.add(data);
 					
-					//se ho aggiunto il valore ho rispettato il filtro QUINDI vado ad esaminare la colonna
+					//se ho aggiunto il valore ho rispettato il filtro QUINDI vado ad esaminare la colonna e inserisco i valori
 					String valueToExamine = ColumnStringChooser(columnToExamine, data);
 					examinedList.ColumnExaminer(valueToExamine);
 			}
 		}
 		
+		//mostro quanti e quali valori ho esaminato
 		examinedList.Printer();
 		
 		return filteredlist;
@@ -86,8 +99,15 @@ public class QueryMaker {
 				int returned = data.getId();
 				if (returned == value) {
 						filteredlist.add(data);
+						
+						//se ho aggiunto il valore ho rispettato il filtro QUINDI vado ad esaminare la colonna e inserisco i valori
+						String valueToExamine = ColumnStringChooser(columnToExamine, data);
+						examinedList.ColumnExaminer(valueToExamine);
+						
 				}
 			}
+			//mostro quanti e quali valori ho esaminato
+			examinedList.Printer();
 		}
 		
 		return filteredlist;
@@ -108,8 +128,14 @@ public class QueryMaker {
 			
 			if (returned == value) {
 					filteredlist.add(data);
+					
+					//se ho aggiunto il valore ho rispettato il filtro QUINDI vado ad esaminare la colonna e inserisco i valori
+					String valueToExamine = ColumnStringChooser(columnToExamine, data);
+					examinedList.ColumnExaminer(valueToExamine);
 			}
 		}
+		//mostro quanti e quali valori ho esaminato
+		examinedList.Printer();
 		
 		return filteredlist;
 	}

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class DesignedTableModel extends AbstractTableModel {
+	//Classe che contiene i metodi x la costruzione della tabella
+	//Partendo dai dati e dalle colonne si genera la tabella
 	
 	  private ArrayList<OrcidData> datalist ;
 	  private String[] columns ; 
@@ -27,7 +29,7 @@ public class DesignedTableModel extends AbstractTableModel {
 	    return datalist.size();
 	  }
 
-	  // Quello che va inserito in una singola cella della tabella, da provare
+	  // Quello che va inserito in una singola cella della tabella
 	  public Object getValueAt(int row, int col) {
 		//seleziono la linea da scrivere, con lo switch seleziono il valore singolo da visualizzare (brutto ma semplice e chiaro)
 	    OrcidData data = datalist.get(row);
@@ -57,7 +59,8 @@ public class DesignedTableModel extends AbstractTableModel {
 	      case 22 : return data.getIsPublic();
 	      //come getStaff
 	      case 23 : return stringArrayManager(Arrays.toString(data.getLeaders()));
-	      //Staff è una lista di elementi, provo a visualizzarlo meglio
+	      //Staff è una lista di elementi, provo a visualizzarlo meglio come NUMERO di ricercatori
+	      //I valori vengono comunque salvati per usi futuri (es filtro o esaminatore)
 	      case 24 : return stringArrayManager(Arrays.toString(data.getStaff()));
 	      case 25 : return data.getLinks();
 	      case 26 : return data.getPrivateOrgTypeId();
@@ -77,7 +80,10 @@ public class DesignedTableModel extends AbstractTableModel {
 	  public String getColumnName(int col) {
 	    return columns[col] ;
 	  }
-
+	  
+	  //StringArrayManager serve a contare quante istanze si trovano in una lista di valori della tabella (es staff : Mario Rossi, Luciano Ligabue....)
+	  //Visto che alcune colonne avevano 4 valori e altre 159, ho deciso di mostrare solo quanti valori hanno gli array in queste colonne
+	  //i dati sono comunque salvati ma per semplicità non sono stati mostrati altrimenti la tabella sarebbe stata molto sbilanciata
 	  public String stringArrayManager(String rowdata) {
 		  //testo con "null" perchè ho trasformato il mio array in una string per leggerlo
 		  if (!(rowdata.equals("null"))) {
@@ -86,6 +92,7 @@ public class DesignedTableModel extends AbstractTableModel {
 			  //ritorno solo il numero di figli perchè l'elenco sarebbe enorme e non so come visualizzarlo
 			  return String.valueOf(elephantList.size());
 		  }
+		  //se arrivo qui la lista è vuota e metto un carattere nullo, non il valore nullo x visualizzare correttamente il tutto
 		  return "";
 	  }
 	  

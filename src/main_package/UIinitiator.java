@@ -13,6 +13,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class UIinitiator {
 	
+	//frame dove inserire la tabella e arraylist dei dati dove inserisco la lista di dati letti e quella di dati filtrati (che varia)
 	private JFrame frameUI;
 	private ArrayList<OrcidData> datalist;
 	private ArrayList<OrcidData> filteredlist;
@@ -24,14 +25,18 @@ public class UIinitiator {
 	
 	public void start() {
 		// TODO Auto-generated method stub
+		//mostra il frame (prima lo crea ma non si vede)
 		frameUI.setVisible(true);
 	}
 	
+	//gestione del frame
 	private static WindowListener closeWindow = new WindowAdapter() {
 		public void windowClosing(WindowEvent e) {
 			e.getWindow().dispose();
 		}
 	};
+	
+	//Table indica la tabella generata con i dati datalist, i valori String sono quelli inseriti dall'utente nel filtro e Jtextfield indica la casella di testo
 	private JTextField valueTextField;
 	private String valueString;
 	private String columnString;
@@ -44,12 +49,13 @@ public class UIinitiator {
 	 */
 	public void createAndShowGUI() {
  
-       //Creo il frame e il layout GBL
+       //Creo il frame e il layout
         
         frameUI = new JFrame("CSV Manager : filtro");
         frameUI.setBounds(100,100,500,500);
         frameUI.setLocationRelativeTo(null);
         frameUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Grid Bag Layout per mostrare gli elementi in modo ordinato (tabella sotto e sopra filtro + esaminatore)
         GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -99,6 +105,7 @@ public class UIinitiator {
 		gbc_comboBox.gridy = 1;
 		frameUI.getContentPane().add(comboBox, gbc_comboBox);
 		
+		//Altro JLabel per indicare il valore della combobox successiva
 		JLabel lblColonnaDaEsaminare = new JLabel("Colonna da esaminare dopo il filtro");
 		GridBagConstraints gbc_lblColonnaDaEsaminare = new GridBagConstraints();
 		gbc_lblColonnaDaEsaminare.anchor = GridBagConstraints.EAST;
@@ -129,7 +136,7 @@ public class UIinitiator {
 		gbc_scrollPane.gridy = 3;
 		frameUI.getContentPane().add(scrollPane, gbc_scrollPane);
 		
-		//creo la table dal file, la aggiornerò premendo il bottone
+		//creo la table dal file, la aggiornerò premendo il bottone. Tablemanager indica il modello di tabella in base ai valori della classe OrcidData
         TableManager tablemanager = new TableManager(datalist);
         table = tablemanager.InitializeTableValues();
         scrollPane.setViewportView(table);
@@ -168,13 +175,14 @@ public class UIinitiator {
 					System.out.println("Controllo colonne evitato perchè la lista non è stata filtrata");
 				} 
 				else {
-					//Creo la datalist filtrata - CASTO IN BASE AL VALORE DELLA COLONNA
+					//Creo la datalist filtrata - CASTO IN BASE AL VALORE DELLA COLONNA. Chiamo QueryMaker per filtrare
 					QueryMaker filterquery = new QueryMaker(columnString, valueString, datalist, columnToExamineString);
 					filteredlist = filterquery.QueryChooser();
 					
 				}
 				//Creo una nuova tabella usando la datalist filtrata (uso un'altra variabile per non perdere quella completa)
 				tablemanager.setDatalist(filteredlist);
+				//inizializzo la tabella e la mostro nella GUI
 				table = tablemanager.InitializeTableValues();
 				scrollPane.setViewportView(table);
 			}

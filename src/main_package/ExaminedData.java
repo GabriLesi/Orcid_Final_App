@@ -40,6 +40,7 @@ public class ExaminedData {
 		}	
 	}
 	
+	//stampa di controllo per i dati visualizzati e per far leggere il tutto all'utente
 	public void Printer() {
 		System.out.println("---------------VALORI ESAMINATI DELLA COLONNA FILTRATA---------------");
 		for (int i = 0; i<valueList.size(); i++) {
